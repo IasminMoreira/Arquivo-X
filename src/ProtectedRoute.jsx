@@ -1,0 +1,10 @@
+// ProtectedRoute.jsx — envolve páginas que exigem login.
+// Se não há usuário, manda para /login.
+
+import { Navigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
+
+export default function ProtectedRoute({ children }) {
+  const { user } = useAuth();
+  return user ? children : <Navigate to="/login" replace />;
+}

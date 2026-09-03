@@ -1,0 +1,68 @@
+/* theme.css — tokens de cor globais do ArquivoX.
+   :root = tema escuro. [data-theme="light"] = tema claro.
+   O ThemeProvider troca o atributo data-theme no <html>, então TODA a
+   aplicação (login e app) segue o mesmo tema. */
+
+:root {
+  --bg:#080B14; --bg-2:#0C1120;
+  --glass:rgba(22,29,48,.62); --glass-2:rgba(30,39,64,.5);
+  --border:rgba(120,145,200,.14); --border-lit:rgba(120,160,255,.32);
+  --ink:#EAF0FB; --muted:#93A0BC; --faint:#66728E;
+  --accent:#2E7BFF; --accent-2:#22D3EE;
+  --glow:0 0 0 1px rgba(46,123,255,.35), 0 8px 30px rgba(46,123,255,.35);
+  --glow-hover:0 0 0 1px rgba(46,123,255,.5),0 10px 34px rgba(46,123,255,.5);
+
+  --t-image:#F5A65B; --t-video:#A78BFA; --t-doc:#5CA8FF; --t-code:#2DD4BF;
+
+  --hover:rgba(255,255,255,.04); --hover-2:rgba(255,255,255,.03);
+  --input-bg:rgba(255,255,255,.03);
+  --card-shadow:0 14px 36px rgba(0,0,0,.45);
+  --folder-shadow:0 10px 30px rgba(0,0,0,.4);
+  --sel-shadow:0 0 0 1px var(--accent),0 0 26px rgba(46,123,255,.4);
+  --tag-glow:0 0 14px currentColor; --seg-glow:0 0 10px currentColor; --swatch-glow:0 0 14px currentColor;
+  --wash:.16; --meter-track:rgba(255,255,255,.06); --scrollthumb:rgba(255,255,255,.08);
+  --glowA:.28; --glowB:.18;
+  --danger:#FF7A7A; --danger-bg:rgba(255,90,90,.12); --danger-bd:rgba(255,90,90,.3);
+  --nav-active:linear-gradient(90deg,rgba(46,123,255,.22),rgba(46,123,255,.06));
+  --nav-active-svg:var(--accent-2);
+  --used-grad:linear-gradient(90deg,#fff,#8FC0FF);
+  --star:#FFD36B; --star-glow:drop-shadow(0 0 6px rgba(255,211,107,.7));
+}
+
+[data-theme="light"] {
+  --bg:#EAEEF4; --bg-2:#FFFFFF;
+  --glass:rgba(255,255,255,.82); --glass-2:rgba(255,255,255,.62);
+  --border:rgba(30,52,95,.11); --border-lit:rgba(37,99,235,.45);
+  --ink:#111A2B; --muted:#54607A; --faint:#8792A6;
+  --accent:#2563EB; --accent-2:#2563EB;
+  --glow:0 0 0 1px rgba(37,99,235,.22), 0 8px 22px rgba(37,99,235,.24);
+  --glow-hover:0 0 0 1px rgba(37,99,235,.4),0 10px 28px rgba(37,99,235,.34);
+
+  --t-image:#D9822B; --t-video:#7C5CE8; --t-doc:#2F7BD4; --t-code:#0EA089;
+
+  --hover:rgba(20,40,80,.05); --hover-2:rgba(20,40,80,.035);
+  --input-bg:#F4F6FA;
+  --card-shadow:0 12px 30px rgba(20,40,80,.12);
+  --folder-shadow:0 10px 26px rgba(20,40,80,.10);
+  --sel-shadow:0 0 0 1px var(--accent),0 0 0 4px rgba(37,99,235,.16);
+  --tag-glow:none; --seg-glow:none; --swatch-glow:0 1px 3px rgba(20,40,80,.18);
+  --wash:.10; --meter-track:rgba(20,40,80,.08); --scrollthumb:rgba(20,40,80,.16);
+  --glowA:.10; --glowB:.07;
+  --danger:#C0392B; --danger-bg:#FCEBEA; --danger-bd:rgba(192,57,43,.3);
+  --nav-active:linear-gradient(90deg,rgba(37,99,235,.14),rgba(37,99,235,.04));
+  --nav-active-svg:var(--accent);
+  --used-grad:linear-gradient(90deg,#101A2B,#3B6EF6);
+  --star:#E6A700; --star-glow:none;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  transition: background .3s, color .3s;
+}
