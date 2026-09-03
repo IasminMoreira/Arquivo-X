@@ -55,6 +55,20 @@
   --star:#E6A700; --star-glow:none;
 }
 
+/* efeito de brilho desligado (botão de alternância) — some com o glow dos
+   botões, etiquetas e seleção, mantendo sombras discretas. */
+[data-glow="off"] {
+  --glow: 0 1px 3px rgba(0,0,0,.2);
+  --glow-hover: 0 4px 12px rgba(0,0,0,.24);
+  --tag-glow: none;
+  --seg-glow: none;
+  --swatch-glow: none;
+  --star-glow: none;
+  --sel-shadow: 0 0 0 1px var(--accent);
+  --glowA: 0;
+  --glowB: 0;
+}
+
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; }
 body {

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTheme } from "../context/ThemeContext";
 
 export default function Topbar({ crumbs = [], view, setView, query, setQuery, onMenu, onNewFolder, onNewFile }) {
-  const { theme, toggle } = useTheme();
+  const { theme, toggle, glow, toggleGlow } = useTheme();
   const [newOpen, setNewOpen] = useState(false);
 
   return (
@@ -44,6 +44,18 @@ export default function Topbar({ crumbs = [], view, setView, query, setQuery, on
       </div>
 
       <div className="top-actions">
+        <button
+          className={`icon-btn ${glow ? "on" : ""}`}
+          onClick={toggleGlow}
+          title={glow ? "Desligar brilho dos botões" : "Ligar brilho dos botões"}
+          aria-label="Alternar brilho"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill={glow ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8">
+            <path d="M12 3l1.7 4.8L18.5 9l-4.8 1.7L12 15l-1.7-4.3L5.5 9l4.8-1.2z" strokeLinejoin="round" />
+            <path d="M18 14l.7 1.8L20.5 16.5l-1.8.7L18 19l-.7-1.8L15.5 16.5l1.8-.7z" strokeLinejoin="round" />
+          </svg>
+        </button>
+
         <button className="icon-btn" onClick={toggle} title="Alternar tema" aria-label="Alternar tema">
           {theme === "dark" ? (
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

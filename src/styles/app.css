@@ -80,6 +80,7 @@
 .top-actions { margin-left: auto; display: flex; align-items: center; gap: 9px; }
 .icon-btn { width: 39px; height: 39px; border-radius: 11px; border: 1px solid var(--border); display: grid; place-items: center; color: var(--muted); background: var(--input-bg); transition: .14s; }
 .icon-btn:hover { color: var(--ink); border-color: var(--border-lit); }
+.icon-btn.on { color: var(--accent); border-color: var(--border-lit); }
 .segmented { display: flex; border: 1px solid var(--border); border-radius: 11px; overflow: hidden; background: var(--input-bg); }
 .segmented button { width: 39px; height: 39px; display: grid; place-items: center; color: var(--muted); transition: .14s; }
 .segmented button:hover:not(.on) { color: var(--ink); }
