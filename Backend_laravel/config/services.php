@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    // Login com o Google: o front autentica pelo Firebase e o backend valida o
+    // ID token. O ID do projeto não é segredo (aparece no front).
+    'firebase' => [
+        'project_id' => env('FIREBASE_PROJECT_ID', 'arquivox-76752'),
+    ],
+
 ];

@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { signInWithPopup, signOut as firebaseSignOut } from "firebase/auth";
+import { auth, googleProvider } from "./firebase";
 
 const AuthContext = createContext(null);
 
@@ -92,6 +94,51 @@ export function AuthProvider({ children }) {
     return data;
   }
 
+  async function logInWithGoogle() {
+    // 1) Popup do Google via Firebase; 2) o backend valida o ID token e cria a sessão.
+    const result = await signInWithPopup(auth, googleProvider);
+    try {
+      const idToken = await result.user.getIdToken();
+      const response = await fetch(`${API_URL}/login/google`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ id_token: idToken }),
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.message || "Falha no login com o Google");
+      }
+
+      localStorage.setItem("arquivox_token", data.token);
+      setToken(data.token);
+      setUser(data.user);
+      return data;
+    } finally {
+      // A sessão do app é a do Laravel; não mantém sessão do Firebase.
+      firebaseSignOut(auth).catch(() => {});
+    }
+  }
+
+  async function resetPassword(email) {
+    const response = await fetch(`${API_URL}/password/reset`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.message || data.errors?.email?.[0] || "Não foi possível enviar o e-mail");
+    }
+    return data;
+  }
+
   async function logOut() {
     if (token) {
       fetch(`${API_URL}/logout`, {
@@ -109,7 +156,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, logIn, signUp, logOut, loading }}>
+    <AuthContext.Provider value={{ user, token, logIn, signUp, logInWithGoogle, resetPassword, logOut, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );
