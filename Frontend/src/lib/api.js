@@ -2,7 +2,8 @@
  * ArquivoX API Client para o Frontend
  * Comunicação com o backend Laravel (Sanctum).
  */
-const API_URL = "http://localhost:8000/api";
+// Em produção defina VITE_API_URL (ex.: https://api.seudominio.com/api) no Vercel.
+export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
 export async function apiFetch(endpoint, options = {}) {
   const token = localStorage.getItem("arquivox_token");
@@ -44,14 +45,14 @@ export const api = {
     // Retorna a URL direta para o arquivo com o token de autenticação
     downloadUrl(fileId) {
         const token = localStorage.getItem("arquivox_token");
-        return `http://localhost:8000/api/files/${fileId}/download?token=${token}`;
+        return `${API_URL}/files/${fileId}/download?token=${token}`;
     },
 
     async download(fileId, fileName) {
         const token = localStorage.getItem("arquivox_token");
         if (!token) throw new Error("Token não encontrado.");
 
-        const response = await fetch(`http://localhost:8000/api/files/${fileId}/download`, {
+        const response = await fetch(`${API_URL}/files/${fileId}/download`, {
             headers: {
             Authorization: `Bearer ${token}`,
             },
