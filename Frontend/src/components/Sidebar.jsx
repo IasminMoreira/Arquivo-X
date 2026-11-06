@@ -39,7 +39,11 @@ export default function Sidebar({ open = false, onClose = () => {}, section = "f
   return (
     <aside className={`side ${open ? "open" : ""}`}>
       <div className="brand">
-        <div className="mark" />
+        <img 
+          src="/logo.png" 
+          alt="Logo ArquivoX" 
+          style={{ width: "28px", height: "28px", objectFit: "contain" }} 
+        />
         <h1>ArquivoX</h1>
       </div>
 
