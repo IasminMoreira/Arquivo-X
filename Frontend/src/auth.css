@@ -45,9 +45,7 @@
 
 .brand{display:flex;align-items:center;gap:11px;margin-bottom:26px;}
 .brand span{font-family:"Space Grotesk","Hanken Grotesk",sans-serif;font-size:19px;font-weight:600;letter-spacing:-.01em;}
-.mark{width:34px;height:34px;border-radius:10px;position:relative;flex:none;
-  background:linear-gradient(135deg,#2E7BFF,#22D3EE);box-shadow:0 0 18px rgba(46,123,255,.55);}
-.mark::before{content:"";position:absolute;inset:9px 8px;border:2px solid #fff;border-radius:3px 3px 4px 4px;border-top-width:5px;}
+.mark{width:40px;height:40px;flex:none;object-fit:contain;display:block;}
 
 .title{font-size:23px;font-weight:700;margin:0 0 6px;letter-spacing:-.01em;}
 .subtitle{color:var(--muted);font-size:14px;margin:0 0 22px;line-height:1.5;}

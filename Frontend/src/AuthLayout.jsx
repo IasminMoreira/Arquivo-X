@@ -26,7 +26,7 @@ export default function AuthLayout({ title, subtitle, children }) {
 
       <div className="card">
         <div className="brand">
-          <div className="mark" />
+          <img className="mark" src="/logo.png" alt="" width="38" height="38" />
           <span>ArquivoX</span>
         </div>
         <h1 className="title">{title}</h1>
