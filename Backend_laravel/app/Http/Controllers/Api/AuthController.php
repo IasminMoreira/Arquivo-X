@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Folder;
 use App\Models\User;
+use App\Services\FirebaseTokenVerifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
+use RuntimeException;
 
 class AuthController extends Controller
 {
@@ -59,10 +62,47 @@ class AuthController extends Controller
         ]);
     }
 
-    public function googleLogin(Request $request)
+    /**
+     * Login com o Google. O front faz o login pelo Firebase e envia o ID token;
+     * aqui o token é verificado e SÓ o e-mail confirmado dentro dele é usado.
+     * Nunca confiar em e-mail/nome enviados direto pelo cliente.
+     */
+    public function googleLogin(Request $request, FirebaseTokenVerifier $verifier)
     {
-        $email = $request->input('email', 'usuario.google@gmail.com');
-        $name = $request->input('name', 'Usuário Google');
+        $request->validate([
+            'id_token' => 'required|string',
+        ]);
+
+        try {
+            $claims = $verifier->verify($request->input('id_token'));
+        } catch (InvalidArgumentException) {
+            return response()->json([
+                'message' => 'Não foi possível confirmar o login com o Google. Tente novamente.',
+            ], 401);
+        } catch (RuntimeException $e) {
+            report($e);
+
+            return response()->json([
+                'message' => 'Não foi possível validar o login com o Google agora. Tente novamente em instantes.',
+            ], 503);
+        }
+
+        $email = $claims['email'] ?? null;
+
+        if (($claims['firebase']['sign_in_provider'] ?? null) !== 'google.com'
+            || ! is_string($email) || $email === ''
+            || ($claims['email_verified'] ?? false) !== true) {
+            return response()->json([
+                'message' => 'A conta do Google precisa ter um e-mail verificado.',
+            ], 422);
+        }
+
+        $name = $claims['name'] ?? null;
+        if (! is_string($name) || $name === '') {
+            $name = Str::before($email, '@');
+        }
+
+        $picture = $claims['picture'] ?? null;
 
         $isNew = ! User::where('email', $email)->exists();
 
@@ -86,7 +126,9 @@ class AuthController extends Controller
                 'name' => $user->name,
                 'displayName' => $user->name,
                 'email' => $user->email,
-                'photoURL' => 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&background=38bdf8&color=fff',
+                'photoURL' => is_string($picture) && $picture !== ''
+                    ? $picture
+                    : 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&background=38bdf8&color=fff',
             ],
             'token' => $token,
         ]);

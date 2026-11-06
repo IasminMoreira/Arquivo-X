@@ -11,6 +11,8 @@ const MESSAGES = {
   "auth/too-many-requests": "Muitas tentativas. Aguarde um momento e tente de novo.",
   "auth/popup-closed-by-user": "A janela do Google foi fechada antes de concluir.",
   "auth/cancelled-popup-request": "Já existe uma janela de login aberta.",
+  "auth/popup-blocked": "O navegador bloqueou a janela do Google. Libere pop-ups e tente de novo.",
+  "auth/unauthorized-domain": "Este endereço do site não está autorizado no Firebase.",
   "auth/network-request-failed": "Falha de conexão com o servidor local.",
 };
 
