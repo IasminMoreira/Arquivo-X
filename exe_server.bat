@@ -71,15 +71,17 @@ echo.
 echo ===================================================
 echo [3/7] Verificando Composer...
 echo ===================================================
-where composer >nul 2>&1
-if !errorLevel! neq 0 (
-    echo        Composer nao encontrado. Instalando...
+if not exist "C:\php\composer.phar" (
+    echo        Composer nao encontrado. Baixando...
     curl -L -o "%TEMP%\composer-setup.php" "https://getcomposer.org/installer"
-    php "%TEMP%\composer-setup.php" --install-dir="C:\php" --filename=composer
+    php "%TEMP%\composer-setup.php" --install-dir="C:\php" --filename=composer.phar
     del "%TEMP%\composer-setup.php"
+    
+    :: Cria o script wrapper composer.bat em C:\php
+    echo @php "C:\php\composer.phar" %%* > "C:\php\composer.bat"
     echo        Composer instalado com sucesso.
 ) else (
-    echo        Composer ja esta instalado.
+    echo        Composer ja esta instalado em C:\php.
 )
 
 echo.
@@ -88,7 +90,7 @@ echo [4/7] Instalando dependencias do Laravel...
 echo ===================================================
 if exist "%BACKEND%" (
     cd /d "%BACKEND%"
-    cmd /c composer install --no-interaction --prefer-dist
+    php "C:\php\composer.phar" install --no-interaction --prefer-dist
     if !errorLevel! neq 0 (
         echo [ERRO] Falha ao instalar dependencias do Composer.
         pause
